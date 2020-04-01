@@ -37,6 +37,10 @@ export default {
 
 html, body {
         height: 100%;
+        margin-right: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
     }
 
 #nav {

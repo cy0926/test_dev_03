@@ -1,4 +1,4 @@
-import { postRequest, getRequest} from "./common";
+import { postRequest, getRequest, deleteRequest} from "./common";
 
 export const login = function (username, password) {
     return postRequest('user/login/',{   //登录
@@ -8,7 +8,7 @@ export const login = function (username, password) {
 };
 
 export const logout = function () {
-    return deleteRequest('user/logout/')   //退出登录
+    return deleteRequest('user/logout/')   //退出登录deleteRequest
 };
 
 export const register = function (username, password) {

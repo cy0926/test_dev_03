@@ -39,12 +39,12 @@
                 />
             </el-form-item>
             <div>
-                <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;"
+                <el-button :loading="loading_login" type="primary" style="width:100%;margin-bottom:10px;"
                            @click="handleLogin">登录
                 </el-button>
             </div>
             <div>
-                <el-button style="width:100%;margin-bottom:30px;" @click="handleRegister">注册</el-button>
+                <el-button :loading="loading_register" style="width:100%;margin-bottom:30px;" @click="handleRegister">注册</el-button>
             </div>
         </el-form>
     </div>
@@ -64,7 +64,9 @@
                     username: [{required: true, trigger: 'blur'}],
                     password: [{required: true, trigger: 'blur'}]
                 },
-                loading: false,
+                loading_login: false,
+                loading_register: false,
+
                 passwordType: 'password',
             }
         },
@@ -72,8 +74,20 @@
             handleLogin() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
-                        this.loading = true
-                        login(this.loginForm.username, this.loginForm.password)
+                        this.loading_login = true
+                        login(this.loginForm.username, this.loginForm.password).then(data=>{
+                            let success = data.data.success
+                            if (success){
+                                this.$router.push('/');
+                            }else{
+                                // this.$message.error(data.data.error.message);
+                                 this.$notify.error({
+                                    title: '提示',
+                                    message: data.data.error.message,
+                                    duration: 0
+                                    });
+                            }
+                        })
                     } else {
                         console.log('error submit!!')
                         return false
@@ -83,8 +97,20 @@
             handleRegister() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
-                        this.loading = true
-                        register(this.loginForm.username, this.loginForm.password)
+                        this.loading_register = true
+                        register(this.loginForm.username, this.loginForm.password).then(data=>{
+                            let success = data.data.success
+                            if (success){
+                                this.$router.push('/');
+                            }else {
+                                // this.$message.error(data.data.error.message);
+                                this.$notify.error({
+                                    title: '提示',
+                                    message: data.data.error.message,
+                                    duration: 0
+                                    });
+                            }
+                        })
                     } else {
                         console.log('error submit!!')
                         return false

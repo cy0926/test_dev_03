@@ -20,7 +20,7 @@ export const putRequest = function (path, data={}) {
 };
 
 export const deleteRequest = function (path, data={}){
-    return axios.dlete(backendHost + path, data)
+    return axios.delete(backendHost + path, data)
 };
 
 export const patchRequest = function (path, data={}){

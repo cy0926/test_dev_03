@@ -27,7 +27,7 @@ def user_login(request, *args, **kwargs):
         return response_failed()
     user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
     if not user:
-        return response_failed(code=ErrorCode.auth_error,
+        return response_failed(code=ErrorCode.auth,
                                message="登录失败")
     else:
         login(request, user)  # 登录持久化，记录session
@@ -55,11 +55,11 @@ def user_register(request, *args, **kwargs):
     # 先判断注册用户是否已存在
     if User.objects.filter(username=form.cleaned_data['username']).exists():
 
-        return response_failed(code=ErrorCode.auth_error, message="用户已存在")
+        return response_failed(code=ErrorCode.auth, message="用户已存在")
 
     user = User.objects.create_user(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
     if not user:
-        return response_failed(code=ErrorCode.auth_error, message="注册失败")
+        return response_failed(code=ErrorCode.auth, message="注册失败")
     else:
         login(request, user)
         return response_success()
@@ -75,7 +75,7 @@ def user_logout(request, *args, **kwargs):
 def get_user_info(request, *args, **kwargs):
     user = request.user   # 获取当前已登录的用户信息
     if not user:
-        return response_failed(code=ErrorCode.auth_error,
+        return response_failed(code=ErrorCode.auth,
                                message="用户未登录")
     if user.is_authenticated:  # 判断用户是否已经通过校验，多一点判断更加保险一点
         return response_success(data={
@@ -83,5 +83,5 @@ def get_user_info(request, *args, **kwargs):
             "name": user.username
         })
     else:
-        return response_failed(code=ErrorCode.auth_error,
+        return response_failed(code=ErrorCode.auth,
                                message="用户未登录")

@@ -2,27 +2,29 @@
   <div class="home">
       <div class="left-menu">
           <el-menu style="height: 100%"
-            default-active="1"
+            :default-active="activeIndex"
             class="el-menu-vertical-demo"
             background-color="#304156"
             text-color="#fff"
+            @select="handleSelect"
             active-text-color="#409eff">
 
-            <el-menu-item index="1" style="text-align: left">
+            <el-menu-item index="service" style="text-align: left">
               <i class="el-icon-menu"></i>
               <span slot="title">服务</span>
             </el-menu-item>
-            <el-menu-item index="2" style="text-align: left">
+            <el-menu-item index="task" style="text-align: left">
               <i class="el-icon-setting"></i>
               <span slot="title">任务</span>
             </el-menu-item>
-            <!-- <el-menu-item index="3" style="text-align: left">
+            <!-- <el-menu-item index="logout" style="text-align: left">
               <i class="el-icon-s-fold"></i>
-              <span slot="title" @click="handleLogout">退出登录</span>
+              <span slot="title">退出登录</span>
             </el-menu-item> -->
         </el-menu>
       </div>
       <div class="right-context"> 
+        <!-- 顶部的退出栏 -->
         <el-container>
             <el-header style="text-align: right; font-size: 16px"> 
               <el-dropdown>
@@ -47,6 +49,9 @@
               </el-table>
             </el-main>
         </el-container>
+
+         <!-- 中间的板块内容，是根据左侧菜单栏变化的，这里用<router-view/>占个坑 -->
+        <router-view/>
       
       </div>
   </div>
@@ -59,19 +64,43 @@
     export default {
       name: 'Home',
       components: {},
+      props:{
+        menu: String
+      },
       data(){
          return{
-           user: ""
+           user: "",
+           activeIndex: "service"
          }
       },
       methods: {
+        handleSelect(index) {
+          //将当前选择的模块的index赋值给activeIndex，因为发现:default-active好像是不会动态改变的，所以在这里需要重新赋值一次
+          this.activeIndex = index  
+           switch(index){
+             case "service":
+               console.log("选择的是service模块");
+               this.$router.push('/service');
+               break;
+             case "task":
+               console.log("选择的是task模块");
+               this.$router.push('/task');
+               break;  
+
+           }
+        },
         handleLogout(){
           logout().then(data=>{
              let success = data.data.success
              if (success){
                this.$router.push('/login')
+             }else{
+               this.$notify.error({
+                          title: '错误',
+                          message: '请求失败'
+                      });
              }
-          })
+          });
         }
       },
       created(){
@@ -84,6 +113,7 @@
               this.$router.push('/')
             }
         });
+        this.activeIndex = this.menu;
       }
     }
 

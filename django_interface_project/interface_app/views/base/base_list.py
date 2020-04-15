@@ -5,7 +5,7 @@ from django.views.generic import View
 
 from interface_app.forms.service_form import ServiceForm
 from interface_app.libs.common import response_success, response_failed, ErrorCode
-from interface_app.models.service import Service
+from interface_app.models.model_ import Service
 
 
 class MyBaseListView(View):
@@ -42,7 +42,7 @@ class MyBaseListView(View):
         if not form.is_valid():
             return response_failed()
 
-        model_data = self.model.create(**form.cleaned_data)
+        model_data = self.model.objects.create(**form.cleaned_data)
         if not model_data:
             return response_failed(code=self.code, message="创建数据失败")
         else:

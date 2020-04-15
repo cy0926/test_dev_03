@@ -15,7 +15,7 @@ export const getSingleService  = function (serviceId) {
     
 };
 
-export const updateService = function(serviceId,data){
+export const updateService = function(serviceId, data){
     return putRequest(`service/${serviceId}/`, data)  //更新服务
 };
 

@@ -5,7 +5,7 @@ from django.views.generic import View
 
 from interface_app.forms.service_form import ServiceForm
 from interface_app.libs.common import response_failed, response_success, ErrorCode
-from interface_app.models.service import Service
+from interface_app.models.model_ import Service
 
 
 class MyBaseDetailView(View):
@@ -46,8 +46,9 @@ class MyBaseDetailView(View):
         model_data = self.model.objects.filter(id=base_id).first()
         if not model_data:
             return response_failed(code=self.code, message="数据不存在")
-        model_data = self.model.objects.filter(id=base_id).update(**form.cleaned_data)
-        return response_success(model_to_dict(model_data))
+        self.model.objects.filter(id=base_id).update(**form.cleaned_data)  # 这里返回的是id
+        service = self.model.objects.filter(id=base_id).first()  # 重新再查一遍更新的数据并返回
+        return response_success(model_to_dict(service))
 
     def delete(self, request, base_id, *args, **kwargs):
         """

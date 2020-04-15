@@ -27,5 +27,5 @@ urlpatterns = [
     path('api/user/info/', user_view.get_user_info),
 
     path('api/services/', ServiceList.as_view()),
-    path('api/service/<int:service_id>/', ServiceDetail.as_view()),
+    path('api/service/<int:base_id>/', ServiceDetail.as_view()),
 ]

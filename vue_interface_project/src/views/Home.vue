@@ -51,16 +51,26 @@
       },
       methods: {
         logoutUser(){
-          logout().then(data=>{
-             let success = data.data.success
-             if(success){
-               this.$router.push('/login')
-             }else{
-               this.$notify.error({
-                         title: '错误',
-                         message: '请求失败'
-               });
-             }
+          this.$confirm('是否确定要退出？', '警告', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+          }).then(() => {
+             logout().then(data=>{
+                let success = data.data.success
+                if (success){
+                  this.$router.push('/login')
+                }else {
+                  this.$notify.error({
+                        title: '错误',
+                        message: '请求失败'
+                  });                    
+                }
+              });              
+          }).catch(() => {
+            // 如果取消了，就跳转到service模块，activeIndex也指向service
+            this.$router.push('/service');
+            this.activeIndex = 'service';
           });
         },
         handleSelect(index) {

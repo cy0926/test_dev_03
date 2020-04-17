@@ -13,6 +13,10 @@
               <i class="el-icon-menu"></i>
               <span slot="title">服务</span>
             </el-menu-item>
+            <el-menu-item index="interface" style="text-align: left">
+              <i class="el-icon-s-operation"></i>
+              <span slot="title">接口</span>
+            </el-menu-item>
             <el-menu-item index="task" style="text-align: left">
               <i class="el-icon-setting"></i>
               <span slot="title">任务</span>
@@ -81,6 +85,10 @@
                console.log("选择的是service模块");
                this.$router.push('/service');
                break;
+             case "interface":
+               console.log("选择的是interface模块");
+               this.$router.push('/interface');
+               break;  
              case "task":
                console.log("选择的是task模块");
                this.$router.push('/task');

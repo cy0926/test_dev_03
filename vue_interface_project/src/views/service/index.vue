@@ -7,9 +7,11 @@
             title="创建服务" 
             :visible.sync="dialogAddVisible" 
             width="30%"
-            @close="resetAddForm('addFormRef')"
-          >
-            <el-form :model="addForm" :rules="addRules" ref="addFormRef" label-width="50px" class="demo-ruleForm">
+            @close="resetAddForm('addFormRef')">
+            
+            <!-- @submit.native.prevent：禁用回车 -->
+            <el-form :model="addForm" :rules="addRules" ref="addFormRef"  @submit.native.prevent
+            label-width="50px" class="demo-ruleForm">
                 <el-form-item label="名称" prop="name">
                   <el-input v-model="addForm.name"></el-input>
                 </el-form-item>
@@ -28,9 +30,9 @@
             title="编辑服务" 
             :visible.sync="dialogEditVisible" 
             width="30%"
-            @close="resetEditForm('editFormRef')"
-          >
-            <el-form :model="editForm" :rules="editRules" ref="editFormRef" label-width="50px" class="demo-ruleForm">
+            @close="resetEditForm('editFormRef')">
+            <el-form :model="editForm" :rules="editRules" ref="editFormRef" @submit.native.prevent
+            label-width="50px" class="demo-ruleForm">
                 <el-form-item label="名称" prop="name">
                   <el-input v-model="editForm.name"></el-input>
                 </el-form-item>
@@ -136,7 +138,7 @@ export default {
                    });
                 }
 
-           })
+           });
         },
         addServiceFun(){   //这是请求创建服务
            this.$refs.addFormRef.validate((valid) => {
@@ -231,7 +233,7 @@ export default {
 <style scoped>
    .service-main {
       text-align: left;
-      padding: 5px 5px;
+      padding: 10px 10px;
    }
    .service-list {
       display: flex;
